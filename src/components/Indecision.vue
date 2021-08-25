@@ -2,10 +2,10 @@
   <img src="http://via.placeholder.com/250" alt="bg" />
   <div class="bg-dark"></div>
   <div class="indecision-container">
-    <input type="text" placeholder="Hazme una pregunta" />
+    <input type="text" v-model="question" placeholder="Hazme una pregunta" />
     <p>Recuerda terminar con un signo de interrogación (?)</p>
     <div>
-      <h1>Seré millonario?</h1>
+      <h1>{{ question }}</h1>
       <h2>Si, No, ...Pensando</h2>
     </div>
   </div>
@@ -14,6 +14,18 @@
 <script>
 export default {
   name: "Indecision",
+  data() {
+    return {
+      question: null,
+    };
+  },
+  watch: {
+    question(newValue, oldValue) {
+      if (!newValue.includes("?")) return;
+
+      console.log({ newValue, oldValue });
+    },
+  },
 };
 </script>
 
