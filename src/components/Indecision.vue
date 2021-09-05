@@ -1,12 +1,12 @@
 <template>
-  <img src="http://via.placeholder.com/250" alt="bg" />
+  <img v-if="img" :src="img" alt="bg" />
   <div class="bg-dark"></div>
   <div class="indecision-container">
     <input type="text" v-model="question" placeholder="Hazme una pregunta" />
     <p>Recuerda terminar con un signo de interrogación (?)</p>
     <div>
       <h1>{{ question }}</h1>
-      <h2>Si, No, ...Pensando</h2>
+      <h2>{{ answer }}</h2>
     </div>
   </div>
 </template>
@@ -17,13 +17,23 @@ export default {
   data() {
     return {
       question: null,
+      answer: null,
+      img: null,
     };
   },
+  methods: {
+    async getAnswer() {
+      this.answer = "Pensando...";
+      const response = await fetch("https://yesno.wtf/api");
+      const { answer, image } = await response.json();
+      this.answer = answer;
+      this.img = image;
+    },
+  },
   watch: {
-    question(newValue, oldValue) {
+    question(newValue) {
       if (!newValue.includes("?")) return;
-
-      console.log({ newValue, oldValue });
+      this.getAnswer();
     },
   },
 };
@@ -33,12 +43,13 @@ export default {
 img,
 .bg-dark {
   height: 100vh;
-  left: 0px;
+  left: 0;
   max-height: 100%;
   max-width: 100%;
   position: fixed;
-  top: 0px;
+  top: 0;
   width: 100vw;
+  object-fit: cover;
 }
 
 .bg-dark {
@@ -55,7 +66,9 @@ input {
   padding: 10px 15px;
   border-radius: 5px;
   border: none;
+  margin-bottom: 2rem;
 }
+
 input:focus {
   outline: none;
 }
@@ -63,7 +76,7 @@ input:focus {
 p {
   color: white;
   font-size: 20px;
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 h1,
