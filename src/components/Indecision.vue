@@ -4,7 +4,7 @@
   <div class="indecision-container">
     <input type="text" v-model="question" placeholder="Hazme una pregunta" />
     <p>Recuerda terminar con un signo de interrogación (?)</p>
-    <div>
+    <div v-if="isValidQuestion">
       <h1>{{ question }}</h1>
       <h2>{{ answer }}</h2>
     </div>
@@ -19,6 +19,7 @@ export default {
       question: null,
       answer: null,
       img: null,
+      isValidQuestion: false
     };
   },
   methods: {
@@ -28,14 +29,16 @@ export default {
       const { answer, image } = await response.json();
       this.answer = answer;
       this.img = image;
-    },
+    }
   },
   watch: {
     question(newValue) {
+      this.isValidQuestion = false;
       if (!newValue.includes("?")) return;
+      this.isValidQuestion = true;
       this.getAnswer();
-    },
-  },
+    }
+  }
 };
 </script>
 
