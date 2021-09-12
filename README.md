@@ -1,7 +1,7 @@
 # indecision-app
 
 ### Demo
-See [here](https://vue-indecision-app.netlify.app/).
+See [preview](https://vue-indecision-app.netlify.app/).
 
 ## Project setup
 ```
